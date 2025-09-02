@@ -53,7 +53,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
 ]
-CSRF_TRUSTED_ORIGINS = ["https://backend-77dj.onrender.com"]
+CSRF_TRUSTED_ORIGINS = ["https://backend-77dj.onrender.com", "http://localhost:8000"]
 
 ROOT_URLCONF = "backend.urls"
 
