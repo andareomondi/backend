@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from base.views import download_video
+from base.views import download_video, add_item
 from django.conf import settings
 from django.conf.urls.static import static
 from base.views import HomeView
@@ -26,6 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", HomeView.as_view(), name="home"),
     path("api/download/", download_video, name="download_video"),
+    path("api/items/", add_item, name="add_item"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

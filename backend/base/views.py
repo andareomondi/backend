@@ -19,6 +19,32 @@ class HomeView(View):
 
 
 @csrf_exempt
+def add_item(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            name = data.get("name")
+            description = data.get("description")
+            price = data.get("price")
+            image = data.get("image")
+            if not name or not description:
+                return JsonResponse(
+                    {"error": "Name and description are required"}, status=400
+                )
+            item = Item.objects.create(
+                name=name, description=description, image=image, price=price
+            )
+            return JsonResponse(
+                {"id": item.id, "name": item.name, "description": item.description},
+                status=201,
+            )
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+    else:
+        return HttpResponse("Invalid request method", status=405)
+
+
+@csrf_exempt
 def download_video(request):
     if request.method == "POST":
         try:
