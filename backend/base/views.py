@@ -12,6 +12,27 @@ from django.views import View
 from .models import Item
 
 
+def get_items(request):
+    """Get all items from database"""
+    if request.method == "GET":
+        items = Item.objects.all()
+        items_data = []
+        
+        for item in items:
+            item_data = {
+                "id": item.id,
+                "name": item.name,
+                "description": item.description,
+                "price": float(item.price) if item.price else None,
+                "image_url": request.build_absolute_uri(item.image.url) if item.image else None,
+                "created_at": item.created_at.isoformat() if hasattr(item, 'created_at') else None
+            }
+            items_data.append(item_data)
+        
+        return JsonResponse({"items": items_data}, status=200)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
+    
 class HomeView(View):
     def get(self, request):
         items = Item.objects.all()
